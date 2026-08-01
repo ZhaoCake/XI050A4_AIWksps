@@ -1,0 +1,22 @@
+# Vivado 工程生成物
+build/
+*.jou
+*.log
+*.pb
+*.str
+*.wdb
+*.wcfg
+
+# Vivado 运行缓存
+.Xil/
+.vivado/
+vivado_*.backup
+
+# 仿真产物
+sim/transcript
+sim/xsim.dir/
+*.vcd
+
+# 系统文件
+Thumbs.db
+Desktop.ini
