@@ -75,6 +75,23 @@ ai_wksps_try/
 D:\Xilinx\Vivado\2023.2\bin\vivado.bat -mode batch -notrace -nojournal -source scripts\build.tcl -tclargs bitstream
 ```
 
+## 四·5、Linux 环境使用（build.sh）
+
+本工程可在 Linux 上以命令行方式运行（Vivado 2025.2 实测通过），入口为 `build.sh`（bash 编写，fish/zsh 下直接 `./build.sh <target>` 调用即可）：
+
+```bash
+./build.sh init          # 创建工程（幂等）
+./build.sh sim           # 行为仿真（先 PASS 再上板）
+./build.sh bitstream     # 综合 + 实现 + 生成 .bit
+./build.sh report        # 时序/资源/功耗报告到 build/reports/
+./build.sh program       # ⚠️ JTAG 下载 —— 仅用户操作
+./build.sh flash         # ⚠️ 烧 SPI Flash —— 仅用户操作
+```
+
+- 参数与 Windows 版同名：`./build.sh bitstream -VivadoBin /path/to/bin`、`-NoLog`；不传则依次查找 `$VIVADO_BIN`、`$XILINX_VIVADO/bin`、PATH。
+- **为什么脚本会重定向 HOME**：本机 `/home` 为只读挂载，Vivado 启动需写 `~/.Xilinx` 缓存（XilinxTclStore），`build.sh` 会给 vivado 进程单独设 `HOME=build/vivado_home`（gitignored）绕过。日志同样写到 `build/logs/`。
+- 2025.2 免费授权即可跑通 xc7a50t 全套流程（无需 license 服务器）。
+
 ## 五、日常开发循环（改代码 → 上板）
 
 ```
